@@ -1,0 +1,265 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="2021-21-09 loo tabel input_type ja lisa kaks tulpa" author="Urmas Mand">
+        <createTable tableName="input_type">
+            <column name="input_type_id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="input_type" type="text"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2021-21-09 loo tabel publisher ja lisa kaks tulpa" author="Urmas Mand">
+        <createTable tableName="publisher">
+            <column name="publisher_id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="publisher" type="text"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2021-21-09 loo tabel developer ja lisa kaks tulpa" author="Urmas Mand">
+        <createTable tableName="developer">
+            <column name="developer_id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="developer" type="text"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="muudan id tulpade nimed erinevates tabelites" author="Urmas Mand">
+        <renameColumn tableName="developer" oldColumnName="developer_id" newColumnName="id"/>
+        <renameColumn tableName="input_type" oldColumnName="input_type_id" newColumnName="id"/>
+        <renameColumn tableName="publisher" oldColumnName="publisher_id" newColumnName="id"/>
+    </changeSet>
+    <changeSet id="2021-09-21 uus tabel vrgame" author="Urmas Mand">
+        <createTable tableName="vrgame">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="game_name" type="text"/>
+            <column name="current_price" type="int"/>
+            <column name="lowest_historic_price" type="int"/>
+            <column name="release_date" type="timestamp"/>
+            <column name="early_access" type="boolean"/>
+            <column name="metascore" type="number"/>
+            <column name="all_reviews" type="number"/>
+            <column name="os_recommended" type="text"/>
+            <column name="processor_recommended" type="text"/>
+            <column name="memory_recommended" type="text"/>
+            <column name="graphics_recommended" type="text"/>
+            <column name="network_recommended" type="text"/>
+            <column name="storage_recommended" type="text"/>
+            <column name="os_minimum" type="text"/>
+            <column name="processor_minimum" type="text"/>
+            <column name="memory_minimum" type="text"/>
+            <column name="graphics_minimum" type="text"/>
+            <column name="network_minimum" type="text"/>
+            <column name="storage_minimum" type="text"/>
+            <column name="about" type="text"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="21092021 andmebaasi tabelid" author="Toomas Haidak">
+        <createTable tableName="headset">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="headset_type" type="text"/>
+        </createTable>
+        <createTable tableName="vrgame_headset_join">
+            <column name="vrgame_id" type="int">
+                <constraints foreignKeyName="fk_vrgame_headset" references="headset(id)"/>
+            </column>
+            <column name="headset_id" type="int">
+                <constraints foreignKeyName="fk_headset_vrgame" references="vrgame(id)"/>
+            </column>
+        </createTable>
+        <createTable tableName="genre">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="genre_type" type="text"/>
+        </createTable>
+        <createTable tableName="vrgame_genre_join">
+            <column name="vrgame_id" type="int">
+                <constraints foreignKeyName="fk_vrgame_genre" references="genre(id)"/>
+            </column>
+            <column name="genre_id" type="int">
+                <constraints foreignKeyName="fk_genre_vrgame" references="vrgame(id)"/>
+            </column>
+        </createTable>
+        <createTable tableName="player_count">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="number_of_players" type="text"/>
+        </createTable>
+        <createTable tableName="vrgame_player_count_join">
+            <column name="vrgame_id" type="int">
+                <constraints foreignKeyName="fk_vrgame_player_count" references="player_count(id)"/>
+            </column>
+            <column name="player_count_id" type="int">
+                <constraints foreignKeyName="fk_player_count_vrgame" references="vrgame(id)"/>
+            </column>
+        </createTable>
+        <createTable tableName="playarea">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="playarea" type="text"/>
+        </createTable>
+        <createTable tableName="vrgame_playarea_join">
+            <column name="vrgame_id" type="int">
+                <constraints foreignKeyName="fk_vrgame_playarea" references="playarea(id)"/>
+            </column>
+            <column name="playarea_id" type="int">
+                <constraints foreignKeyName="fk_playarea_vrgames" references="vrgame(id)"/>
+            </column>
+        </createTable>
+        <createTable tableName="tag">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="tag" type="text"/>
+        </createTable>
+        <createTable tableName="vrgame_tag_join">
+            <column name="vrgame_id" type="int">
+                <constraints foreignKeyName="fk_vrgame_tags" references="tag(id)"/>
+            </column>
+            <column name="tag_id" type="int">
+                <constraints foreignKeyName="fk_tag_vrgame" references="vrgame(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2021-09-21 loon uue tabeli vrgame_input_type_join" author="Urmas Mand">
+        <createTable tableName="vrgame_input_type_join">
+            <column name="vrgame_id" type="int">
+                <constraints primaryKey="true" foreignKeyName="fk_vrgame_input_type" references="input_type(id)"/>
+            </column>
+            <column name="input_type_id" type="int">
+                <constraints primaryKey="true" foreignKeyName="fk_input_type_vrgame" references="vrgame(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2021-09-21 loon uue tabeli vrgame_developer_join" author="Urmas Mand">
+        <createTable tableName="vrgame_developer_join">
+            <column name="vrgame_id" type="int">
+                <constraints primaryKey="true" foreignKeyName="fk_vrgame_developer" references="developer(id)"/>
+            </column>
+            <column name="developer_id" type="int">
+                <constraints primaryKey="true" foreignKeyName="fk_developer_vrgame" references="vrgame(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2021-09-22 lisame vrgame tabelisse app_id tulba" author="Toomas Haidak">
+        <addColumn tableName="vrgame">
+            <column name="app_id" type="int"></column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2021-09-22 lisa vrgame tabelisse foreign key publisherile" author="Toomas Haidak">
+        <addColumn tableName="vrgame">
+            <column name="publisher_fid" type="int">
+                <constraints foreignKeyName="fk_vr_game_publisher" references="publisher(id)"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2021-09-23 lisa current discounted price tulp" author="Toomas Haidak">
+        <addColumn tableName="vrgame">
+            <column name="current_discounted_price" type="numeric"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2021-09-23 price tüüp numericuks" author="Toomas Haidak">
+        <modifyDataType tableName="vrgame" columnName="current_price" newDataType="numeric"/>
+    </changeSet>
+    <changeSet id="2021-09-23 positive reviews osakaal lisamine" author="Toomas Haidak">
+        <addColumn tableName="vrgame">
+            <column name="positive_reviews" type="int"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="kasutaja tabeli loomine" author="Toomas Haidak">
+        <createTable tableName="kasutaja">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"></constraints>
+            </column>
+            <column name="username" type="text">
+                <constraints unique="true"></constraints>
+            </column>
+            <column name="encoded_password" type="text">
+                <constraints unique="true"></constraints>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2021-09-24 eemaldan primarykey tabelitest vrgame_input_type_join ja vrgame_developer_join  "
+               author="Urmas Mand">
+        <dropPrimaryKey tableName="vrgame_input_type_join"/>
+        <dropPrimaryKey tableName="vrgame_developer_join"/>
+    </changeSet>
+    <changeSet id="2021-09-27 loon kaks tulpa vrgame tabelisse nimedega directx_recommended ja directx_minimum"
+               author="Urmas Mand">
+        <addColumn tableName="vrgame">
+            <column name="directx_recommended" type="text"/>
+            <column name="directx_minimum" type="text"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2021-09-27 tulbas madalaim ajalooline hind tyyp intist numericucs" author="Toomas Haidak">
+        <modifyDataType tableName="vrgame" columnName="lowest_historic_price" newDataType="numeric"></modifyDataType>
+    </changeSet>
+    <changeSet id="2021-09-27 tulbas app_id tüüp integer stringks" author="Toomas Haidak">
+        <modifyDataType tableName="vrgame" columnName="app_id" newDataType="text"></modifyDataType>
+    </changeSet>
+    <changeSet id="2021-09-27 mitu mitmele tabelite fk muutmine test" author="Toomas Haidak">
+        <dropAllForeignKeyConstraints baseTableName="vrgame_developer_join"></dropAllForeignKeyConstraints>
+    </changeSet>
+    <changeSet id="2021-09-27 drop all fk ja lisa uued" author="Toomas Haidak">
+        <dropAllForeignKeyConstraints baseTableName="vrgame_genre_join"></dropAllForeignKeyConstraints>
+        <dropAllForeignKeyConstraints baseTableName="vrgame_headset_join"></dropAllForeignKeyConstraints>
+        <dropAllForeignKeyConstraints baseTableName="vrgame_input_type_join"></dropAllForeignKeyConstraints>
+        <dropAllForeignKeyConstraints baseTableName="vrgame_playarea_join"></dropAllForeignKeyConstraints>
+        <dropAllForeignKeyConstraints baseTableName="vrgame_player_count_join"></dropAllForeignKeyConstraints>
+        <dropAllForeignKeyConstraints baseTableName="vrgame_tag_join"></dropAllForeignKeyConstraints>
+        <addForeignKeyConstraint baseTableName="vrgame_developer_join" baseColumnNames="vrgame_id"
+                                 constraintName="fk_vrgame_developer" referencedTableName="vrgame"
+                                 referencedColumnNames="id"></addForeignKeyConstraint>
+        <addForeignKeyConstraint baseTableName="vrgame_developer_join" baseColumnNames="developer_id"
+                                 constraintName="fk_developer_vrgame" referencedTableName="developer"
+                                 referencedColumnNames="id"></addForeignKeyConstraint>
+    </changeSet>
+    <changeSet id="2021-09-27 6 viimast join table fk lisamist" author="Toomas Haidak">
+        <addForeignKeyConstraint baseTableName="vrgame_genre_join" baseColumnNames="vrgame_id"
+                                 constraintName="fk_vrgame_genre" referencedTableName="vrgame"
+                                 referencedColumnNames="id"></addForeignKeyConstraint>
+        <addForeignKeyConstraint baseTableName="vrgame_genre_join" baseColumnNames="genre_id"
+                                 constraintName="fk_genre_vrgame" referencedTableName="genre"
+                                 referencedColumnNames="id"></addForeignKeyConstraint>
+        <addForeignKeyConstraint baseTableName="vrgame_headset_join" baseColumnNames="vrgame_id"
+                                 constraintName="fk_vrgame_headset" referencedTableName="vrgame"
+                                 referencedColumnNames="id"></addForeignKeyConstraint>
+        <addForeignKeyConstraint baseTableName="vrgame_headset_join" baseColumnNames="headset_id"
+                                 constraintName="fk_headset_vrgame" referencedTableName="headset"
+                                 referencedColumnNames="id"></addForeignKeyConstraint>
+        <addForeignKeyConstraint baseTableName="vrgame_input_type_join" baseColumnNames="vrgame_id"
+                                 constraintName="fk_vrgame_input_type" referencedTableName="vrgame"
+                                 referencedColumnNames="id"></addForeignKeyConstraint>
+        <addForeignKeyConstraint baseTableName="vrgame_input_type_join" baseColumnNames="input_type_id"
+                                 constraintName="fk_input_type_vrgame" referencedTableName="input_type"
+                                 referencedColumnNames="id"></addForeignKeyConstraint>
+        <addForeignKeyConstraint baseTableName="vrgame_playarea_join" baseColumnNames="vrgame_id"
+                                 constraintName="fk_vrgame_playarea" referencedTableName="vrgame"
+                                 referencedColumnNames="id"></addForeignKeyConstraint>
+        <addForeignKeyConstraint baseTableName="vrgame_playarea_join" baseColumnNames="playarea_id"
+                                 constraintName="fk_playarea_vrgame" referencedTableName="playarea"
+                                 referencedColumnNames="id"></addForeignKeyConstraint>
+        <addForeignKeyConstraint baseTableName="vrgame_player_count_join" baseColumnNames="vrgame_id"
+                                 constraintName="fk_vrgame_player_count" referencedTableName="vrgame"
+                                 referencedColumnNames="id"></addForeignKeyConstraint>
+        <addForeignKeyConstraint baseTableName="vrgame_player_count_join" baseColumnNames="player_count_id"
+                                 constraintName="fk_player_count_vrgame" referencedTableName="player_count"
+                                 referencedColumnNames="id"></addForeignKeyConstraint>
+        <addForeignKeyConstraint baseTableName="vrgame_tag_join" baseColumnNames="vrgame_id"
+                                 constraintName="fk_vrgame_tag" referencedTableName="vrgame"
+                                 referencedColumnNames="id"></addForeignKeyConstraint>
+        <addForeignKeyConstraint baseTableName="vrgame_tag_join" baseColumnNames="tag_id"
+                                 constraintName="fk_tag_vrgame" referencedTableName="tag"
+                                 referencedColumnNames="id"></addForeignKeyConstraint>
+    </changeSet>
+</databaseChangeLog>
